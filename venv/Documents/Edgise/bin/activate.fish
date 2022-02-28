@@ -29,7 +29,7 @@ end
 # unset irrelevant variables
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV "/Users/michael/Documents/Edgise/Consultancy/2021/IoW/telly_device/venv/Documents/Edgise"
+set -gx VIRTUAL_ENV "/Users/michael/Documents/Edgise/Consultancy/2021/IoW/Internet Of Washing Machines/venv/Documents/Edgise"
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/bin" $PATH

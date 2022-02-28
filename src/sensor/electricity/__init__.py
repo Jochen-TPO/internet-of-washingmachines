@@ -6,6 +6,8 @@ from typing import List
 from multiprocessing import Process, Event, Queue, Lock
 from src.base import EdgiseBase
 from grove.adc import ADC
+from config import cfg
+import json
 
 
 class ACSensor(Process, EdgiseBase):
@@ -51,27 +53,26 @@ class ACSensor(Process, EdgiseBase):
         print(self._config_dict['name'])
 
         while not self._stop_event.is_set():
-            if not self._input_q.empty():
-                measurement_dict = self._input_q.get_nowait()
-                self.i2c_lock.acquire()
-                try:
-                    raw_val = self.read_sensor()
-                finally:
-                    self.i2c_lock.release()
-                self.info("Raw Value: {}".format(raw_val))
-                amplitude_current = self.amplitude_current(raw_val)
-                self.info("A I Value: {}".format(amplitude_current))
-                rms_current = self.RMS_current(amplitude_current)
-                self.info("RMS I Value: {}".format(rms_current))
-                avg_power = self.avg_power_consumption(rms_current)
-                self.info("AVG W Value: {}".format(avg_power))
 
-                measurement = {
-                    'RawVal': raw_val,
-                    'CurrentAmp': amplitude_current,
-                    'RMSCurrent': rms_current,
-                    'AVGPower': avg_power
-                }
-                measurement_dict[self._config_dict['name']] = measurement
-                self._output_q.put_nowait(measurement_dict)
-                time.sleep(1)
+            self.i2c_lock.acquire()
+            try:
+                raw_val = self.read_sensor()
+            finally:
+                self.i2c_lock.release()
+            self.info("Raw Value: {}".format(raw_val))
+            amplitude_current = self.amplitude_current(raw_val)
+            self.info("A I Value: {}".format(amplitude_current))
+            rms_current = self.RMS_current(amplitude_current)
+            self.info("RMS I Value: {}".format(rms_current))
+            avg_power = self.avg_power_consumption(rms_current)
+            self.info("AVG W Value: {}".format(avg_power))
+
+            data = {'electricitySensorData': {
+                'rawVal': raw_val,
+                'currentAmp': amplitude_current,
+                'rmsCurrent': rms_current,
+                'avgPower': avg_power
+            }}
+            measurement = {'data': data}
+            self._output_q.put_nowait({'event': json.dumps(measurement)})
+            time.sleep(10)

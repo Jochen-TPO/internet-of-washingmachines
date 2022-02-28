@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="/Users/michael/Documents/Edgise/Consultancy/2021/IoW/telly_device/venv/Documents/Edgise"
+VIRTUAL_ENV="/Users/michael/Documents/Edgise/Consultancy/2021/IoW/Internet Of Washing Machines/venv/Documents/Edgise"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

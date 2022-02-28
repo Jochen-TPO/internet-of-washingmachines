@@ -1,4 +1,6 @@
-#!/Users/michael/Documents/Edgise/Consultancy/2021/IoW/telly_device/venv/Documents/Edgise/bin/python
+#!/bin/sh
+'''exec' "/Users/michael/Documents/Edgise/Consultancy/2021/IoW/Internet Of Washing Machines/venv/Documents/Edgise/bin/python" "$0" "$@"
+' '''
 # -*- coding: utf-8 -*-
 import re
 import sys
